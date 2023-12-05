@@ -69,10 +69,11 @@ int varauksenTeko() {
 
     bool varausOn { true };
     int prompt1 = { 0 };
-    int yhdenHengenMaara { 0 };
-    int kahdenHengenMaara { 0 };
-    int varattuYhden { 0 };
-    int varattuKahden { 0 };
+    float yhdenHengenMaara { 0 };
+    float kahdenHengenMaara { 0 };
+    float varattuYhden { 0 };
+    float varattuKahden { 0 };
+    float oidenMaara { 1 };
 
     system("cls");
     int randomNmb { 0 };
@@ -82,8 +83,8 @@ int varauksenTeko() {
         randomNmb = randomNumberRooms();
     } while (randomNmb % 2 != 0);
 
-    int yhdenHengen = randomNmb / 2;
-    int kahdenHengen = yhdenHengen;
+    float yhdenHengen = randomNmb / 2;
+    float kahdenHengen = yhdenHengen;
 
 
 
@@ -94,10 +95,11 @@ int varauksenTeko() {
         cout << "Kahden hengen huoneita on: " << kahdenHengen << "\n" << endl;
         cout << "Varatut huoneet:" << endl;
         cout << "1-Hengen(" << yhdenHengenHinta << "eur):" << varattuYhden << endl;
-        cout << "2-Hengen(" << kahdenHengenHinta << "eur):" << varattuKahden << "\n" << endl; 
+        cout << "2-Hengen(" << kahdenHengenHinta << "eur):" << varattuKahden << endl;
+        cout << "Oiden maara: " << oidenMaara << " yota." << "\n" << endl;
 
-        cout << "Haluatko varata yhden vai kahden hengen huoneen?" << endl;
-        cout << "|1. Yhden hengen huone| |2. kahden hengen huone| |3. Valitse puolestani| |4. Katsastele varausta|" << endl;
+        cout << "Valitse huone tai lisaa oita!" << endl;
+        cout << "|1. Yhden hengen huone| |2. kahden hengen huone| |3. Valitse puolestani| |4. Lisaa yo| |5. Esikatsele varausta|" << endl;
         cout << "|5. Sulje ohjelma     |" << endl;
         cout << ": ";
         prompt1 = validInput();
@@ -145,8 +147,14 @@ int varauksenTeko() {
                 system("cls");
             }
         }
+
         else if (prompt1 == 4){
-            float alennusProsLaskuun;
+            oidenMaara++;
+            system("cls");
+        }
+
+        else if (prompt1 == 5){
+            float alennusProsLaskuun { 1 };
             system("cls");
             titleBarBare();
             int alennusPros = rand() % 3;
@@ -172,11 +180,12 @@ int varauksenTeko() {
             cout << "Varauksen yhteenveto:" << endl;
             cout << "Yhden hengen huoneiden maara: " << varattuYhden << " hinta: " << yhdenYhtHinta << endl;
             cout << "Kahden henhen huoneiden maara: " << varattuKahden << " hinta: " << kahdenYhtHinta << endl;
+            cout << "Oiden maara: " << oidenMaara << " yota." << endl;
             cout << "Alennusprosentti: " << alennusPros << "%" << endl;
 
             float yhteishinta = yhdenYhtHinta + kahdenYhtHinta;
+            yhteishinta = yhteishinta * oidenMaara;
             float alennettuYhteishinta = yhteishinta * alennusProsLaskuun;
-
             cout << "Yhteishinta: " << alennettuYhteishinta << " eur" << endl;
             cout << ": ";
             int prompt2 = validInput();
