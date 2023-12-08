@@ -53,7 +53,7 @@ void titleBarBare() {
 int randomNumberRooms() {
  std::random_device rd;
     std::default_random_engine rng { rd() };
-    std::uniform_int_distribution <int> uni { 40, 42 };
+    std::uniform_int_distribution <int> uni { 40, 300 };
 
 return uni(rng);
 }
