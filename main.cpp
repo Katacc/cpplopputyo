@@ -117,7 +117,7 @@ int varauksenTeko() {
         // Tästä alkaa syötteen tarkastus ja toteutus
         if (prompt1 == 1){
             if (yhdenHengen < 1){
-                cout << "Yhden hengen huoneet loppu..";
+                cout << "Yhden hengen huoneet loppu.." << endl;
                 system("pause");
                 system("cls");
             }
@@ -131,7 +131,7 @@ int varauksenTeko() {
         // Kahden hengen huoneet
         else if (prompt1 == 2){
             if (kahdenHengen < 1){
-                cout << "Kahden hengen huoneet loppu..";
+                cout << "Kahden hengen huoneet loppu.." << endl;
                 system("pause");
                 system("cls");
             }
