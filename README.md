@@ -3,7 +3,7 @@
 # Compiling
 
 - Ohjelma on testattu ja käännetty g++ compilerilla
-    - Käytä komentoa "g++ -std=c++2a -o"
+    - Käytä komentoa "g++ -std=c++2a main.cpp -o losKatas.exe"
     - Tai käännä sovellus installScript.bat scriptillä.
 
 - Ohjelma toimii kunnolla oikeassa terminaali (cmd) ikkunassa
