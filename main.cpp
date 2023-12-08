@@ -53,7 +53,7 @@ void titleBarBare() {
 int randomNumberRooms() {
  std::random_device rd;
     std::default_random_engine rng { rd() };
-    std::uniform_int_distribution <int> uni { 40, 300 };
+    std::uniform_int_distribution <int> uni { 40, 42 };
 
 return uni(rng);
 }
@@ -117,7 +117,7 @@ int varauksenTeko() {
         // Tästä alkaa syötteen tarkastus ja toteutus
         if (prompt1 == 1){
             if (yhdenHengen < 1){
-                cout << "Huoneet loppu..";
+                cout << "Yhden hengen huoneet loppu..";
                 system("pause");
                 system("cls");
             }
@@ -150,9 +150,17 @@ int varauksenTeko() {
             if (randomNmb2 == 1) {
                 if (yhdenHengen < 1){
 
-                    cout << "Yhden hengen huoneet loppu.." << endl;
-                    system("pause");
-                    system("cls");
+                    if (kahdenHengen < 1) {
+                        cout << "Huoneet loppu.." << endl;
+                        system("pause");
+                        system("cls");
+                    }
+                    else {
+                        randomNmb--;
+                        kahdenHengen--;
+                        varattuKahden++;
+                        system("cls");
+                    }
 
                 }
                 else {
@@ -166,9 +174,17 @@ int varauksenTeko() {
             }
             else {
                 if (kahdenHengen < 1) {
-                    cout << "Kahden hengen huoneet loppu.." << endl;
-                    system("pause");
-                    system("cls");
+                    if (yhdenHengen < 1) {
+                        cout << "Huoneet loppu.." << endl;
+                        system("pause");
+                        system("cls");
+                    }
+                    else {
+                        randomNmb--;
+                        yhdenHengen--;
+                        varattuYhden++;
+                        system("cls");
+                    }
                 }
                 else {
                     randomNmb--;
@@ -239,7 +255,7 @@ int varauksenTeko() {
             }
         }
 
-        else if (prompt1 == 5){
+        else if (prompt1 == 6){
             cout << "Lopetetaan.." << endl;
             sleep_for(1s);
             varausOn = false;
@@ -247,7 +263,7 @@ int varauksenTeko() {
         }
         // Syötteen tarkastus
         else {
-            cout << "Virhe syotteessa.. tarkoititko 1, 2 tai 3?";
+            cout << "Virhe syotteessa..";
             sleep_for(2s);
             system("cls");
         }
