@@ -9,6 +9,8 @@ using namespace std::this_thread;     // sleep_for, sleep_until
 using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
 using std::chrono::system_clock;
 
+
+// Globaalit vakiot
 const int yhdenHengenHinta { 100 };
 const int kahdenHengenHinta { 150 };
 const int alennus0 { 0 };
@@ -18,6 +20,7 @@ const float alennus0pros { 1 };
 const float alennus10pros { 0.90 };
 const float alennus20pros { 0.80 };
 
+// Syötteen tarkastus
 int validInput()
 {
     int x;
@@ -32,6 +35,7 @@ int validInput()
     return x;
 }
 
+// Menubaari
 void titleBar() {
     cout << "Hotelli Los Kata's varausjarjestelma" << endl;
     cout << "-------------------------------------" << endl;
@@ -39,11 +43,13 @@ void titleBar() {
 
 }
 
+// Menubaari pohja
 void titleBarBare() {
     cout << "Hotelli Los Kata's varausjarjestelma" << endl;
     cout << "-------------------------------------" << endl;
 }
 
+// Satunnaisnumerogeneraattori huoneiden määrälle
 int randomNumberRooms() {
  std::random_device rd;
     std::default_random_engine rng { rd() };
@@ -52,6 +58,7 @@ int randomNumberRooms() {
 return uni(rng);
 }
 
+// Aliohjelma "maksamiselle"
 void maksamaan() {
     system("cls");
     titleBarBare();
@@ -63,6 +70,7 @@ void maksamaan() {
     cout << "Kiitos varauksesta " << nimi << "!!" << endl;
 }
 
+// Ohjelman sielu
 int varauksenTeko() {
 
     srand(time(0));
@@ -78,16 +86,18 @@ int varauksenTeko() {
     system("cls");
     int randomNmb { 0 };
 
+    // Huonemäärän haku
     do {
 
         randomNmb = randomNumberRooms();
     } while (randomNmb % 2 != 0);
 
+    // Yhden ja kahden hengen huoneet
     float yhdenHengen = randomNmb / 2;
     float kahdenHengen = yhdenHengen;
 
 
-
+    // Looppi huoneiden varauksille
     while (varausOn){   
         titleBarBare();
         cout << "Huoneita vapaana: " << randomNmb << endl;
@@ -100,13 +110,15 @@ int varauksenTeko() {
 
         cout << "Valitse huone tai lisaa oita!" << endl;
         cout << "|1. Yhden hengen huone| |2. kahden hengen huone| |3. Valitse puolestani| |4. Lisaa yo| |5. Esikatsele varausta|" << endl;
-        cout << "|5. Sulje ohjelma     |" << endl;
+        cout << "|6. Sulje ohjelma     |" << endl;
         cout << ": ";
         prompt1 = validInput();
 
+        // Tästä alkaa syötteen tarkastus ja toteutus
         if (prompt1 == 1){
             if (yhdenHengen < 1){
                 cout << "Huoneet loppu..";
+                system("pause");
                 system("cls");
             }
             else {
@@ -116,9 +128,11 @@ int varauksenTeko() {
                 system("cls");
             }
         }
+        // Kahden hengen huoneet
         else if (prompt1 == 2){
             if (kahdenHengen < 1){
                 cout << "Kahden hengen huoneet loppu..";
+                system("pause");
                 system("cls");
             }
             else {
@@ -128,31 +142,48 @@ int varauksenTeko() {
                 system("cls");
             }
         }
-
+        // Satunnainen huone
         else if (prompt1 == 3){
 
             int randomNmb2 = rand() % 2;
 
             if (randomNmb2 == 1) {
-                randomNmb--;
-                yhdenHengen--;
-                varattuYhden++;
-                system("cls");
+                if (yhdenHengen < 1){
+
+                    cout << "Yhden hengen huoneet loppu.." << endl;
+                    system("pause");
+                    system("cls");
+
+                }
+                else {
+                    randomNmb--;
+                    yhdenHengen--;
+                    varattuYhden++;
+                    system("cls");
+
+                }
 
             }
             else {
-                randomNmb--;
-                kahdenHengen--;
-                varattuKahden++;
-                system("cls");
+                if (kahdenHengen < 1) {
+                    cout << "Kahden hengen huoneet loppu.." << endl;
+                    system("pause");
+                    system("cls");
+                }
+                else {
+                    randomNmb--;
+                    kahdenHengen--;
+                    varattuKahden++;
+                    system("cls");
+                }
             }
         }
-
+        // Öiden määrien lisääminen
         else if (prompt1 == 4){
             oidenMaara++;
             system("cls");
         }
-
+        // Varauksen esikatselu
         else if (prompt1 == 5){
             float alennusProsLaskuun { 1 };
             system("cls");
@@ -210,10 +241,11 @@ int varauksenTeko() {
 
         else if (prompt1 == 5){
             cout << "Lopetetaan.." << endl;
+            sleep_for(1s);
             varausOn = false;
             return 0;
         }
-
+        // Syötteen tarkastus
         else {
             cout << "Virhe syotteessa.. tarkoititko 1, 2 tai 3?";
             sleep_for(2s);
@@ -225,6 +257,7 @@ int varauksenTeko() {
 return 1;
 }
 
+// Pääohjelma
 int main() {
     int valinta1 { 0 };
     titleBar();
@@ -233,6 +266,7 @@ int main() {
 
     start:
 
+    // Varauksen teko aliohjelman aloittaminen
     if (valinta1 == 1){
         varauksenTeko();
     }
@@ -241,6 +275,7 @@ int main() {
 
     }
 
+    // Syötteen tarkastus
     else {
         cout << "Virhe syotteessa.. Tarkoititko kenties 1 tai 2?";
         goto start;
