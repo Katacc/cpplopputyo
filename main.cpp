@@ -220,7 +220,7 @@ int varauksenTeko() {
                     break;
             }
             summary:
-            cout << "|1. Takaisin| |2. Siirry maksamaan| |3. Poistu|\n" << endl;
+
 
             float yhdenYhtHinta = yhdenHengenHinta * varattuYhden;
             float kahdenYhtHinta = kahdenHengenHinta * varattuKahden;
@@ -233,12 +233,14 @@ int varauksenTeko() {
             float yhteishinta = yhdenYhtHinta + kahdenYhtHinta;
             yhteishinta = yhteishinta * oidenMaara;
             float alennettuYhteishinta = yhteishinta * alennusProsLaskuun;
-            cout << "Yhteishinta: " << alennettuYhteishinta << " eur" << endl;
+            cout << "Yhteishinta: " << alennettuYhteishinta << " eur" << "\n" << endl;
+            cout << "|1. Takaisin| |2. Siirry maksamaan| |3. Poistu|" << endl;
             cout << ": ";
             int prompt2 = validInput();
 
             switch (prompt2){
                 case 1:
+                    system("cls");
                     break;
                 case 2:
                     system("cls");
