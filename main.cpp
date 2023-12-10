@@ -91,7 +91,6 @@ int varauksenTeko() {
 
     // Huonemäärän haku
     do {
-
         randomNmb = randomNumberRooms();
     } while (randomNmb % 2 != 0);
 
@@ -99,6 +98,7 @@ int varauksenTeko() {
     int yhdenHengen = randomNmb / 2;
     int kahdenHengen = yhdenHengen;
 
+    // Referenssit huoneiden määrille vertailua varten
     const int yhdenHengenRef = yhdenHengen;
     const int yhdenHengenRefplus = yhdenHengen + 1;
     const int kahdenHengenRef = randomNmb;
@@ -186,7 +186,7 @@ int varauksenTeko() {
 
                     if (huonenumero == 0) {
                         // Satunnaishuoneen generointi
-
+                        // While looppi generoimaan uuden huonenumeron kunnes sitä ei löydy vectorilta
                     do {
                         huonenumero = rand() % (kahdenHengenRef - yhdenHengenRef) + yhdenHengenRefplus;
                     } while (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end());
@@ -201,7 +201,7 @@ int varauksenTeko() {
 
                     else {
                         if ((huonenumero <= kahdenHengenRef) && huonenumero > yhdenHengenRef) {
-
+                            // Tarkastetaan onko löytyykö huonenumero jo vectorista
                             if (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end() ) {
                                 cout << "Huone on jo varattu.. Valitse toinen.." << endl;
                                 system("pause");
@@ -250,8 +250,8 @@ int varauksenTeko() {
                     alennusProsLaskuun = alennus20pros;
                     break;
             }
+            // goto label syötteen tarkastusta varten
             summary:
-
 
             float yhdenYhtHinta = yhdenHengenHinta * varattuYhden;
             float kahdenYhtHinta = kahdenHengenHinta * varattuKahden;
