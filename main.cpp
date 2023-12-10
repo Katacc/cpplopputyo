@@ -58,6 +58,7 @@ int randomNumberRooms() {
 return uni(rng);
 }
 
+
 // Aliohjelma "maksamiselle"
 void maksamaan() {
     system("cls");
@@ -73,8 +74,6 @@ void maksamaan() {
 // Ohjelman sielu
 int varauksenTeko() {
 
-    srand(time(0));
-
     bool varausOn { true };
     int prompt1 = { 0 };
     float yhdenHengenMaara { 0 };
@@ -82,9 +81,13 @@ int varauksenTeko() {
     float varattuYhden { 0 };
     float varattuKahden { 0 };
     float oidenMaara { 1 };
+    float huonenumero { 0 };
 
     system("cls");
     int randomNmb { 0 };
+
+    vector <float> varattuYhdenVector { };
+    vector <float> varattuKahdenVector { };
 
     // Huonemäärän haku
     do {
@@ -93,12 +96,16 @@ int varauksenTeko() {
     } while (randomNmb % 2 != 0);
 
     // Yhden ja kahden hengen huoneet
-    float yhdenHengen = randomNmb / 2;
-    float kahdenHengen = yhdenHengen;
+    int yhdenHengen = randomNmb / 2;
+    int kahdenHengen = yhdenHengen;
 
+    const int yhdenHengenRef = yhdenHengen;
+    const int yhdenHengenRefplus = yhdenHengen + 1;
+    const int kahdenHengenRef = randomNmb;
 
     // Looppi huoneiden varauksille
     while (varausOn){   
+        srand(time(0));
         titleBarBare();
         cout << "Huoneita vapaana: " << randomNmb << endl;
         cout << "Joista yhden hengen huoneita on: " << yhdenHengen << endl;
@@ -109,7 +116,7 @@ int varauksenTeko() {
         cout << "Oiden maara: " << oidenMaara << " yota." << "\n" << endl;
 
         cout << "Valitse huone tai lisaa oita!" << endl;
-        cout << "|1. Yhden hengen huone| |2. kahden hengen huone| |3. Valitse puolestani| |4. Lisaa yo| |5. Esikatsele varausta|" << endl;
+        cout << "|1. Yhden hengen huone| |2. kahden hengen huone| |3. Lisaa yo| |4. Esikatsele varausta|" << endl;
         cout << "|6. Sulje ohjelma     |" << endl;
         cout << ": ";
         prompt1 = validInput();
@@ -121,86 +128,110 @@ int varauksenTeko() {
                 system("pause");
                 system("cls");
             }
+
             else {
-                randomNmb--;
-                yhdenHengen--;
-                varattuYhden++;
-                system("cls");
-            }
-        }
-        // Kahden hengen huoneet
-        else if (prompt1 == 2){
-            if (kahdenHengen < 1){
-                cout << "Kahden hengen huoneet loppu.." << endl;
-                system("pause");
-                system("cls");
-            }
-            else {
-                randomNmb--;
-                kahdenHengen--;
-                varattuKahden++;
-                system("cls");
-            }
-        }
-        // Satunnainen huone
-        else if (prompt1 == 3){
+                cout << "Valitse huonenumero (kirjoita 0, niin valitsemme puolestasi!) (1 - " << yhdenHengenRef << " ): ";
+                huonenumero = validInput();
 
-            int randomNmb2 = rand() % 2;
+                if (huonenumero == 0) {
+                    // satunnaishuonenumero
+                    do {
+                        huonenumero = rand() % yhdenHengenRef + 1;
+                    } while (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end());
 
-            if (randomNmb2 == 1) {
-                if (yhdenHengen < 1){
-
-                    if (kahdenHengen < 1) {
-                        cout << "Huoneet loppu.." << endl;
-                        system("pause");
-                        system("cls");
-                    }
-                    else {
-                        randomNmb--;
-                        kahdenHengen--;
-                        varattuKahden++;
-                        system("cls");
-                    }
-
-                }
-                else {
-                    randomNmb--;
+                    varattuYhdenVector.push_back(huonenumero);
                     yhdenHengen--;
+                    randomNmb--;
                     varattuYhden++;
                     system("cls");
 
                 }
 
-            }
-            else {
-                if (kahdenHengen < 1) {
-                    if (yhdenHengen < 1) {
-                        cout << "Huoneet loppu.." << endl;
+                else {
+                    if (huonenumero <= yhdenHengenRef) {
+                        if (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end() ) {
+                            cout << "Huone on jo varattu.. Valitse toinen.." << endl;
+                            system("pause");
+                            system("cls");
+                        } 
+                
+
+                        else {
+                            varattuYhdenVector.push_back(huonenumero);
+                            randomNmb--;
+                            yhdenHengen--;
+                            varattuYhden++;
+                            system("cls");
+                        }
+                    }
+                    else {
+                        cout << "Huonenumero ei yhdenhengen huone.." << endl;
                         system("pause");
                         system("cls");
                     }
-                    else {
-                        randomNmb--;
-                        yhdenHengen--;
-                        varattuYhden++;
-                        system("cls");
-                    }
-                }
-                else {
-                    randomNmb--;
-                    kahdenHengen--;
-                    varattuKahden++;
-                    system("cls");
                 }
             }
         }
+        // Kahden hengen huoneet
+        else if (prompt1 == 2){
+                if (kahdenHengen < 1){
+                    cout << "Kahden hengen huoneet loppu.." << endl;
+                    system("pause");
+                    system("cls");
+                }
+                else { 
+
+                    cout << "Valitse huonenumero (kirjoita 0, niin valitsemme puolestasi!) (" << yhdenHengenRef+1 << " - " << kahdenHengenRef << "): ";
+                    huonenumero = validInput();
+
+                    if (huonenumero == 0) {
+                        // Satunnaishuoneen generointi
+
+                    do {
+                        huonenumero = rand() % (kahdenHengenRef - yhdenHengenRef) + yhdenHengenRefplus;
+                    } while (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end());
+
+                    varattuKahdenVector.push_back(huonenumero);
+                    kahdenHengen--;
+                    randomNmb--;
+                    varattuKahden++;
+                    system("cls");
+                
+                    }
+
+                    else {
+                        if ((huonenumero <= kahdenHengenRef) && huonenumero > yhdenHengenRef) {
+
+                            if (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end() ) {
+                                cout << "Huone on jo varattu.. Valitse toinen.." << endl;
+                                system("pause");
+                                system("cls");
+                            } 
+
+                            else {
+                                varattuKahdenVector.push_back(huonenumero);
+                                randomNmb--;
+                                kahdenHengen--;
+                                varattuKahden++;
+                                system("cls");
+                            }
+                        }
+
+                        else {
+                            cout << "Huone ei saatavilla tai huone yhden hengen alueella.." << endl;
+                            system("pause");
+                            system("cls");
+                        }
+                    }
+                }
+        }
         // Öiden määrien lisääminen
-        else if (prompt1 == 4){
+        else if (prompt1 == 3){
             oidenMaara++;
             system("cls");
         }
         // Varauksen esikatselu
-        else if (prompt1 == 5){
+        else if (prompt1 == 4){
             float alennusProsLaskuun { 1 };
             system("cls");
             titleBarBare();
@@ -228,12 +259,24 @@ int varauksenTeko() {
             cout << "Yhden hengen huoneiden maara: " << varattuYhden << " hinta: " << yhdenYhtHinta << endl;
             cout << "Kahden henhen huoneiden maara: " << varattuKahden << " hinta: " << kahdenYhtHinta << endl;
             cout << "Oiden maara: " << oidenMaara << " yota." << endl;
-            cout << "Alennusprosentti: " << alennusPros << "%" << endl;
+            cout << "Alennusprosentti: " << alennusPros << "%" << "\n" << endl;
+
+            cout << "Varatut yhden hengen huoneiden numerot: ";
+
+            for (int n : varattuYhdenVector) {
+                cout << n << " ";
+            }
+
+            cout << "\nVaratut kahden hengen huoneiden numerot: ";
+
+            for (int n : varattuKahdenVector) {
+                cout << n << " ";
+            }
 
             float yhteishinta = yhdenYhtHinta + kahdenYhtHinta;
             yhteishinta = yhteishinta * oidenMaara;
             float alennettuYhteishinta = yhteishinta * alennusProsLaskuun;
-            cout << "Yhteishinta: " << alennettuYhteishinta << " eur" << "\n" << endl;
+            cout << "\nYhteishinta: " << alennettuYhteishinta << " eur" << "\n" << endl;
             cout << "|1. Takaisin| |2. Siirry maksamaan| |3. Poistu|" << endl;
             cout << ": ";
             int prompt2 = validInput();
