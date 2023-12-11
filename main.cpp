@@ -130,7 +130,7 @@ int varauksenTeko() {
             }
 
             else {
-                cout << "Valitse huonenumero (kirjoita 0, niin valitsemme puolestasi!) (1 - " << yhdenHengenRef << " ): ";
+                cout << "Valitse huonenumero (kirjoita 0, niin valitsemme puolestasi!) (1 - " << yhdenHengenRef << "): ";
                 huonenumero = validInput();
 
                 if (huonenumero == 0) {
@@ -235,7 +235,13 @@ int varauksenTeko() {
             float alennusProsLaskuun { 1 };
             system("cls");
             titleBarBare();
-            int alennusPros = rand() % 3;
+            // Satunnaisnumero generaattori alennusprosentille
+            std::random_device rd;
+                std::default_random_engine rng { rd() };
+                std::uniform_int_distribution <int> uni { 1, 3 };
+                int alennusPros = uni(rng);
+
+                // Valintakytkin näytettävälle prosenttimäärälle ja laskuun käytettävälle kertoimelle
             switch (alennusPros){
                 case 1:
                     alennusPros = alennus0;
@@ -263,12 +269,14 @@ int varauksenTeko() {
 
             cout << "Varatut yhden hengen huoneiden numerot: ";
 
+            // Huonenumeroiden tulostus
             for (int n : varattuYhdenVector) {
                 cout << n << " ";
             }
 
             cout << "\nVaratut kahden hengen huoneiden numerot: ";
 
+            // Huonenumeroiden tulostus
             for (int n : varattuKahdenVector) {
                 cout << n << " ";
             }
