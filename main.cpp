@@ -16,6 +16,8 @@ const int kahdenHengenHinta { 150 };
 const int alennus0 { 0 };
 const int alennus10 { 10 };
 const int alennus20 { 20 };
+
+// Kerroin alennusprosentin perusteella
 const float alennus0pros { 1 };
 const float alennus10pros { 0.90 };
 const float alennus20pros { 0.80 };
@@ -74,6 +76,7 @@ void maksamaan() {
 // Ohjelman sielu
 int varauksenTeko() {
 
+    // Muuttujien alustus
     bool varausOn { true };
     int prompt1 = { 0 };
     float yhdenHengenMaara { 0 };
@@ -83,9 +86,11 @@ int varauksenTeko() {
     float oidenMaara { 1 };
     float huonenumero { 0 };
 
+    // Terminaalin tyhjennys
     system("cls");
     int randomNmb { 0 };
 
+    // Vectorit huonenumeroille
     vector <float> varattuYhdenVector { };
     vector <float> varattuKahdenVector { };
 
@@ -134,11 +139,12 @@ int varauksenTeko() {
                 huonenumero = validInput();
 
                 if (huonenumero == 0) {
-                    // satunnaishuonenumero
+                    // satunnaisnumeron luonti huonenumerolle
                     do {
                         huonenumero = rand() % yhdenHengenRef + 1;
-                    } while (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end());
+                    } while (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end()); // Vertailee huonenumeroa koko vectorin alueella
 
+                    // Lisätään huonenumero vectoriin ja suoritetaan muuttujien päivitykset
                     varattuYhdenVector.push_back(huonenumero);
                     yhdenHengen--;
                     randomNmb--;
@@ -148,15 +154,22 @@ int varauksenTeko() {
                 }
 
                 else {
-                    if (huonenumero <= yhdenHengenRef) {
-                        if (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end() ) {
+
+                    if (huonenumero < 0) {
+                        cout << "Huonenumero yli valittavan alueen.." << endl;
+                        system("pause");
+                        system("cls");
+                    }
+
+                    else if (huonenumero <= yhdenHengenRef) {
+                        if (std::find(varattuYhdenVector.begin(), varattuYhdenVector.end(), huonenumero) != varattuYhdenVector.end() ) { // Vertailee huonenumeroa koko vectorin alueella
                             cout << "Huone on jo varattu.. Valitse toinen.." << endl;
                             system("pause");
                             system("cls");
                         } 
                 
-
                         else {
+                            // Lisätään huonenumero vectoriin ja suoritetaan muuttujien päivitykset
                             varattuYhdenVector.push_back(huonenumero);
                             randomNmb--;
                             yhdenHengen--;
@@ -164,7 +177,9 @@ int varauksenTeko() {
                             system("cls");
                         }
                     }
+
                     else {
+                        // Jos huonenumero menee yli alueesta
                         cout << "Huonenumero ei yhdenhengen huone.." << endl;
                         system("pause");
                         system("cls");
@@ -187,15 +202,15 @@ int varauksenTeko() {
                     if (huonenumero == 0) {
                         // Satunnaishuoneen generointi
                         // While looppi generoimaan uuden huonenumeron kunnes sitä ei löydy vectorilta
-                    do {
-                        huonenumero = rand() % (kahdenHengenRef - yhdenHengenRef) + yhdenHengenRefplus;
-                    } while (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end());
+                        do {
+                            huonenumero = rand() % (kahdenHengenRef - yhdenHengenRef) + yhdenHengenRefplus;
+                        } while (std::find(varattuKahdenVector.begin(), varattuKahdenVector.end(), huonenumero) != varattuKahdenVector.end());
 
-                    varattuKahdenVector.push_back(huonenumero);
-                    kahdenHengen--;
-                    randomNmb--;
-                    varattuKahden++;
-                    system("cls");
+                        varattuKahdenVector.push_back(huonenumero);
+                        kahdenHengen--;
+                        randomNmb--;
+                        varattuKahden++;
+                        system("cls");
                 
                     }
 
@@ -208,6 +223,7 @@ int varauksenTeko() {
                                 system("cls");
                             } 
 
+                            // Lisätään huonenumero vectoriin ja suoritetaan muuttujien päivitykset                            
                             else {
                                 varattuKahdenVector.push_back(huonenumero);
                                 randomNmb--;
@@ -262,8 +278,8 @@ int varauksenTeko() {
             float yhdenYhtHinta = yhdenHengenHinta * varattuYhden;
             float kahdenYhtHinta = kahdenHengenHinta * varattuKahden;
             cout << "Varauksen yhteenveto:" << endl;
-            cout << "Yhden hengen huoneiden maara: " << varattuYhden << " hinta: " << yhdenYhtHinta << endl;
-            cout << "Kahden henhen huoneiden maara: " << varattuKahden << " hinta: " << kahdenYhtHinta << endl;
+            cout << "Yhden hengen huoneiden maara: " << varattuYhden << " hinta: " << yhdenYhtHinta << " eur." <<endl;
+            cout << "Kahden henhen huoneiden maara: " << varattuKahden << " hinta: " << kahdenYhtHinta << " eur." << endl;
             cout << "Oiden maara: " << oidenMaara << " yota." << endl;
             cout << "Alennusprosentti: " << alennusPros << "%" << "\n" << endl;
 
@@ -281,14 +297,18 @@ int varauksenTeko() {
                 cout << n << " ";
             }
 
+            // lasketaan hinnat
             float yhteishinta = yhdenYhtHinta + kahdenYhtHinta;
             yhteishinta = yhteishinta * oidenMaara;
             float alennettuYhteishinta = yhteishinta * alennusProsLaskuun;
+
+
             cout << "\nYhteishinta: " << alennettuYhteishinta << " eur" << "\n" << endl;
             cout << "|1. Takaisin| |2. Siirry maksamaan| |3. Poistu|" << endl;
             cout << ": ";
             int prompt2 = validInput();
 
+            // Kytkin valikkorakenteelle
             switch (prompt2){
                 case 1:
                     system("cls");
@@ -308,6 +328,7 @@ int varauksenTeko() {
             }
         }
 
+        // Lopetuskomento
         else if (prompt1 == 6){
             cout << "Lopetetaan.." << endl;
             sleep_for(1s);
